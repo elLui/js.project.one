@@ -100,7 +100,7 @@ document.querySelector('.again').addEventListener('click', function () {
     // resets parameters for another game - highscore remains
     score = 20;
     document.querySelector('.message').textContent = 'Start guessing...';
-    let secret_number = Math.trunc(Math.random() * 20) + 1;
+    secret_number = Math.trunc(Math.random() * 20) + 1;
     document.querySelector('.score').textContent = 20;
     document.querySelector('.number').textContent = '?';
     document.querySelector('body').style.backgroundColor = 'blueviolet';
