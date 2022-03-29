@@ -44,6 +44,7 @@ document.querySelector('.check').addEventListener('click', function () {
         // change background_color upon winning && increase the width of winning number
         document.querySelector('body').style.backgroundColor = '#60b347';
         document.querySelector('.number').style.width = '30rem';
+        document.querySelector('.number').textContent = guess;
 
         // if === highscore an additional message indicating highscore
         if (guess >= high_score) {
@@ -105,6 +106,7 @@ document.querySelector('.again').addEventListener('click', function () {
     document.querySelector('body').style.backgroundColor = 'blueviolet';
     document.querySelector('.number').style.width = '15rem';
     document.querySelector('.guess').value = 0;
+    document.querySelector('.number').textContent = '?';
 
     // for_debug
     console.log(secret_number);
