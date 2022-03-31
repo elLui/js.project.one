@@ -21,11 +21,8 @@
  * ===================================
  *
  * ** variables
- * .number ===  '?'.initial_view.center_block
- * .score === 20.initial_view.starting_user_score
  * .guess === input_field.users_guess
- * .highscore === 0.initial_view.highscore_value
- * .message === 'Start guessing...'.initial_view.status_message
+
  *
  * ** buttons
  * .check === 'Check!'.button.logic_initializer
@@ -48,16 +45,46 @@
 // console.log(document.querySelector('.message').textContent);
 //
 
+
+// class.message === 'Start guessing...'.initial_view.status_message_display
+const status_message_display = function (message) {
+    document.querySelector('.message').textContent = message;
+}
+
+// class.number ===  '?'
+const center_block_content = function (number) {
+    document.querySelector('.number').textContent = number;
+}
+
+// random number generator
+const secret_number_generator = function () {
+    // generate a random number between 1 through 20
+    return Math.trunc(Math.random() * 20) + 1;
+}
+
+// class.initial_view.center_block.score === 20
+const current_score_field = function (user_score) {
+    document.querySelector('.score').textContent = user_score;
+}
+
+
+// .initial_view.starting_highscore.highscore === 0
+// .initial_view.highscore_value
+
+
+// fresh_content_load
+center_block_content('?');
+
+
 // initial content load
-document.querySelector('.number').textContent = '?';
-document.querySelector('.score').textContent = '20';
+current_score_field('20');
 console.log(document.querySelector('.guess').value);
 document.querySelector('.guess').value = 0;
 
 
 // assign variables - 
 let high_score = document.querySelector('.highscore').textContent;
-let secret_number = Math.trunc(Math.random() * 20) + 1;
+let secret_number = secret_number_generator();
 let score = 20;
 
 // for debugging purposes
@@ -76,62 +103,47 @@ document.querySelector('.check').addEventListener('click', function () {
     // guess verification process
     if (!guess) {
         // if !guess === an error 
-        document.querySelector('.message').textContent = '🚫 No Number 🚫';
+        status_message_display('🚫 No Number 🚫');
     } else if (guess < 0 || guess > 20) {
         // direct user to the 1 through 20 rule
-        document.querySelector('.message').textContent = 'Can you not read? Top Right -> Your Other Right! 1 thru 20. 🤦‍♂️🤷‍♀️🤦‍♀️🐱‍🐉';
+        status_message_display('Can you not read? Top Right -> Your Other Right! 1 thru 20. 🤦‍♂️🤷‍♀️🤦‍♀️🐱‍🐉');
     } else if (guess === secret_number) {
         // change background_color upon winning && increase the width of winning number
         document.querySelector('body').style.backgroundColor = '#60b347';
         document.querySelector('.number').style.width = '30rem';
-        document.querySelector('.number').textContent = guess;
+        center_block_content(guess);
 
         // if === highscore an additional message indicating highscore
-        if (guess >= high_score) {
+        if (score >= high_score) {
             // winning_highscore_greeting
-            document.querySelector('.message').textContent = 'Correct Number && You got the high_score!!!! 💃💃🎈🎊🥳👯‍♂️👯‍♀️';
+            status_message_display('Correct Number && You got the high_score!!!! 💃💃🎈🎊🥳👯‍♂️👯‍♀️');
             // set high_score
             high_score = score;
-            document.querySelector('.highscore').textContent = high_score;
+            status_message_display(high_score);
             // set high_score
             high_score = score;
         } else if (guess === high_score) {
             // winning_tied_highscore_greeting
-            document.querySelector('.message').textContent = 'Correct Number -- but, you are tied for the high score!!!!!!! 💃💃🎈🎊🥳👯‍♂️👯‍♀️';
+            status_message_display('Correct Number -- but, you are tied for the high score!!!!!!! 💃💃🎈🎊🥳👯‍♂️👯‍♀️');
             document.querySelector('.highscore').textContent = score;
         } else {
             // winning_greeting
-            document.querySelector('.message').textContent = 'Correct Number! 💃💃🎈🎊🥳👯‍♂️👯‍♀️';
+            status_message_display('Correct Number! 💃💃🎈🎊🥳👯‍♂️👯‍♀️');
             document.querySelector('.highscore').textContent = score;
         }
 
     } else if (guess < secret_number || guess > secret_number) {
-        if (guess < secret_number) {
-            // low
-            document.querySelector('.message').textContent = 'Way low my dude. 📉';
-        } else {
-            // high
+
+        document.querySelector('.message').textContent = (guess < secret_number) ?
+            document.querySelector('.message').textContent = 'Way low my dude. 📉' :
             document.querySelector('.message').textContent = 'You are way to high my dude. 📈';
-        }
+
         // set score
         score--;
+
         // update display score
-        document.querySelector('.score').textContent = score;
-    } else if (guess > secret_number) {
-        // set score
-        score--;
-        // update display score
-        document.querySelector('.score').textContent = score;
+        current_score_field(score);
     }
-
-
-    // changes 'Start Guessing...' == to ==>>
-
-    /**
-     * TODO:: tbd -
-     */
-
-
 })
 
 
@@ -140,14 +152,16 @@ document.querySelector('.again').addEventListener('click', function () {
 
     // resets parameters for another game - highscore remains
     score = 20;
-    document.querySelector('.message').textContent = 'Start guessing...';
-    secret_number = Math.trunc(Math.random() * 20) + 1;
+    status_message_display('Start guessing...');
+    secret_number = secret_number_generator();
     document.querySelector('.score').textContent = '20';
-    document.querySelector('.number').textContent = '?';
     document.querySelector('body').style.backgroundColor = 'blueviolet';
     document.querySelector('.number').style.width = '15rem';
     document.querySelector('.guess').value = 0;
-    document.querySelector('.number').textContent = '?';
+
+    //moved to fresh_content_load
+    // document.querySelector('.number').textContent = '?';
+
 
     // for_debug
     console.log(secret_number);
@@ -155,4 +169,13 @@ document.querySelector('.again').addEventListener('click', function () {
 })
 
 
-// document.querySelector('.guess').textContent
+
+
+
+
+
+
+
+
+
+
