@@ -63,20 +63,27 @@ const secret_number_generator = function () {
 }
 
 // class.initial_view.center_block.score === 20
-const current_score_field = function (user_score) {
-    document.querySelector('.score').textContent = user_score;
+const current_score_field = function (score) {
+    document.querySelector('.score').textContent = score;
 }
 
-
-// .initial_view.starting_highscore.highscore === 0
-// .initial_view.highscore_value
-
+// ** function :: high_score is not implemented due to the use and nature of the highscore variable
+// .initial_view.starting_user_score.highscore === 0
+const current_highscore = function (hi_score) {
+    document.querySelector('.highscore').textContent = hi_score;
+}
 
 // fresh_content_load
 center_block_content('?');
 
 
 // initial content load
+
+
+
+
+
+
 current_score_field('20');
 console.log(document.querySelector('.guess').value);
 document.querySelector('.guess').value = 0;
@@ -125,11 +132,13 @@ document.querySelector('.check').addEventListener('click', function () {
         } else if (guess === high_score) {
             // winning_tied_highscore_greeting
             status_message_display('Correct Number -- but, you are tied for the high score!!!!!!! 💃💃🎈🎊🥳👯‍♂️👯‍♀️');
-            document.querySelector('.highscore').textContent = score;
+            score = guess;
+            current_highscore(score);
         } else {
             // winning_greeting
             status_message_display('Correct Number! 💃💃🎈🎊🥳👯‍♂️👯‍♀️');
-            document.querySelector('.highscore').textContent = score;
+            score = guess;
+            current_highscore(score);
         }
 
     } else if (guess < secret_number || guess > secret_number) {
@@ -138,9 +147,16 @@ document.querySelector('.check').addEventListener('click', function () {
             document.querySelector('.message').textContent = 'Way low my dude. 📉' :
             document.querySelector('.message').textContent = 'You are way to high my dude. 📈';
 
+
         // set score
         score--;
+        // update display score
+        current_score_field(score);
+        current_highscore(high_score);
 
+    } else if (guess > secret_number) {
+        // set score
+        score--;
         // update display score
         current_score_field(score);
     }
@@ -153,8 +169,10 @@ document.querySelector('.again').addEventListener('click', function () {
     // resets parameters for another game - highscore remains
     score = 20;
     status_message_display('Start guessing...');
+    current_score_field(score);
+
+
     secret_number = secret_number_generator();
-    document.querySelector('.score').textContent = '20';
     document.querySelector('body').style.backgroundColor = 'blueviolet';
     document.querySelector('.number').style.width = '15rem';
     document.querySelector('.guess').value = 0;
