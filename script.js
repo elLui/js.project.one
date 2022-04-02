@@ -33,38 +33,38 @@
  * .number === control_center_box_size *
  */
 
+/**
+ * The "use strict" Directive
+ * The "use strict" directive was new in ECMAScript version 5 *
+ * It is not a statement, but a literal expression, ignored by earlier versions of JavaScript
+ * The purpose of "use strict" is to indicate that the code should be executed in "strict mode"
+ * With strict mode, you can not, for example, use undeclared variables
+ *
+ * ** https://www.w3schools.com/js/js_strict.asp
+ */
 
 // do not remove!
 'use strict';
 
-//
-
-//
-// debugging item
-// id === #, class === ., 
-// console.log(document.querySelector('.message').textContent);
-//
-
-
-// class.message === 'Start guessing...'.initial_view.status_message_display
+// class.message
 const status_message_display = function (message) {
     document.querySelector('.message').textContent = message;
 }
 
-// class.number ===  '?'
+// class.number
 const center_block_content = function (number) {
     document.querySelector('.number').textContent = number;
 }
 
-// random number generator
+// class.score
+const current_score_field = function (score) {
+    document.querySelector('.score').textContent = score;
+}
+
+// random_number_generator
 const secret_number_generator = function () {
     // generate a random number between 1 through 20
     return Math.trunc(Math.random() * 20) + 1;
-}
-
-// class.initial_view.center_block.score === 20
-const current_score_field = function (score) {
-    document.querySelector('.score').textContent = score;
 }
 
 // ** function :: high_score is not implemented due to the use and nature of the highscore variable
@@ -73,29 +73,35 @@ const current_highscore = function (hi_score) {
     document.querySelector('.highscore').textContent = hi_score;
 }
 
-// fresh_content_load
-center_block_content('?');
+// loads all starting_&&_reset values to an initial value
+const load_initial_content = function () {
 
+    // scoreboard_css_properties
+    center_block_content('?');
+    status_message_display('Start guessing...');
+    current_score_field(20);
 
-// initial content load
+    // center-block_css_properties
+    document.querySelector('body').style.backgroundColor = 'blueviolet';
+    document.querySelector('.number').style.width = '15rem';
 
+    // logic_properties
+    secret_number = secret_number_generator();
+    document.querySelector('.guess').value = 0;
+}
 
-
-
-
-
-current_score_field('20');
-console.log(document.querySelector('.guess').value);
-document.querySelector('.guess').value = 0;
-
-
-// assign variables - 
-let high_score = document.querySelector('.highscore').textContent;
-let secret_number = secret_number_generator();
 let score = 20;
+let high_score = 0;
+let secret_number = secret_number_generator();
 
-// for debugging purposes
+load_initial_content();
+
+// debugging information
+console.log(document.querySelector('.guess').value);
 console.log(secret_number);
+
+
+
 
 
 // click-handler_check!_button
@@ -104,8 +110,8 @@ document.querySelector('.check').addEventListener('click', function () {
     // click-handler_guess_value
     let guess = Number(document.querySelector('.guess').value);
 
-    // testing cl verification === 'Number' data types
-    console.log(guess, typeof guess);
+    // debug tool
+    // console.log(guess, typeof guess);
 
     // guess verification process
     if (!guess) {
@@ -165,20 +171,8 @@ document.querySelector('.check').addEventListener('click', function () {
 
 // click-handler_again_button
 document.querySelector('.again').addEventListener('click', function () {
+    load_initial_content();
 
-    // resets parameters for another game - highscore remains
-    score = 20;
-    status_message_display('Start guessing...');
-    current_score_field(score);
-
-
-    secret_number = secret_number_generator();
-    document.querySelector('body').style.backgroundColor = 'blueviolet';
-    document.querySelector('.number').style.width = '15rem';
-    document.querySelector('.guess').value = 0;
-
-    //moved to fresh_content_load
-    // document.querySelector('.number').textContent = '?';
 
 
     // for_debug
