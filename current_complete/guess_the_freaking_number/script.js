@@ -46,35 +46,50 @@
 // do not remove!
 'use strict';
 
+////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * following classes control various aspects of the gui -
+ * format :: class_name.function_name.brief_description
+ * @param message.status_message_display.starting_value."Start guessing..."
+ * @param number.center_block_content.starting_value."?"
+ * @param score.current_score_field.starting_value."20"
+ * @param high_score.current_highscore.starting_value."0"
+ */
 // class.message
-const status_message_display = function (message) {
-    document.querySelector('.message').textContent = message;
+const status_message_display = function (message_in) {
+    document.querySelector('.message').textContent = message_in;
 }
-
 // class.number
-const center_block_content = function (number) {
-    document.querySelector('.number').textContent = number;
+const center_block_content = function (number_in) {
+    document.querySelector('.number').textContent = number_in;
 }
-
 // class.score
-const current_score_field = function (score) {
-    document.querySelector('.score').textContent = score;
+const current_score_field = function (score_in) {
+    document.querySelector('.score').textContent = score_in;
 }
-
+// class.highscore
+const current_highscore = function (highscore_in) {
+    document.querySelector('.highscore').textContent = highscore_in;
+}
 // random_number_generator
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * generates a pseudo random number between 1 and 20
+ * @returns {number} === returned 'random' number
+ */
 const secret_number_generator = function () {
-    // generate a random number between 1 through 20
+    // generate a 'random' number between 1 through 20
     return Math.trunc(Math.random() * 20) + 1;
 }
 
-// ** function :: high_score is not implemented due to the use and nature of the highscore variable
-// .initial_view.starting_user_score.highscore === 0
-const current_highscore = function (hi_score) {
-    document.querySelector('.highscore').textContent = hi_score;
-}
-
+////////////////////////////////////////////////////////////////////////////////////////////
 // loads all starting_&&_reset values to an initial value
 const load_initial_content = function () {
+
+    // score reset
+    score = 20;
 
     // scoreboard_css_properties
     center_block_content('?');
@@ -90,20 +105,22 @@ const load_initial_content = function () {
     document.querySelector('.guess').value = 0;
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// the following variables can not be const
 let score = 20;
 let high_score = 0;
 let secret_number = secret_number_generator();
 
+////////////////////////////////////////////////////////////////////////////////////////////
+// initial form fill
 load_initial_content();
 
 // debugging information
-console.log(document.querySelector('.guess').value);
-console.log(secret_number);
+// console.log(document.querySelector('.guess').value);
+// console.log(secret_number);
 
-
-
-
-
+////////////////////////////////////////////////////////////////////////////////////////////
 // click-handler_check!_button
 document.querySelector('.check').addEventListener('click', function () {
 
@@ -127,57 +144,41 @@ document.querySelector('.check').addEventListener('click', function () {
         center_block_content(guess);
 
         // if === highscore an additional message indicating highscore
-        if (score >= high_score) {
+        if (score > high_score) {
             // winning_highscore_greeting
             status_message_display('Correct Number && You got the high_score!!!! 💃💃🎈🎊🥳👯‍♂️👯‍♀️');
             // set high_score
             high_score = score;
-            status_message_display(high_score);
-            // set high_score
-            high_score = score;
-        } else if (guess === high_score) {
+            current_highscore(high_score);
+        } else if (score === high_score) {
             // winning_tied_highscore_greeting
             status_message_display('Correct Number -- but, you are tied for the high score!!!!!!! 💃💃🎈🎊🥳👯‍♂️👯‍♀️');
-            score = guess;
             current_highscore(score);
         } else {
             // winning_greeting
             status_message_display('Correct Number! 💃💃🎈🎊🥳👯‍♂️👯‍♀️');
-            score = guess;
             current_highscore(score);
         }
 
     } else if (guess < secret_number || guess > secret_number) {
+        // set score
+        score--;
 
         document.querySelector('.message').textContent = (guess < secret_number) ?
             document.querySelector('.message').textContent = 'Way low my dude. 📉' :
             document.querySelector('.message').textContent = 'You are way to high my dude. 📈';
 
-
-        // set score
-        score--;
         // update display score
         current_score_field(score);
         current_highscore(high_score);
-
-    } else if (guess > secret_number) {
-        // set score
-        score--;
-        // update display score
-        current_score_field(score);
     }
 })
-
-
+////////////////////////////////////////////////////////////////////////////////////////////
 // click-handler_again_button
 document.querySelector('.again').addEventListener('click', function () {
     load_initial_content();
-
-
-
     // for_debug
-    console.log(secret_number);
-
+    // console.log(secret_number);
 })
 
 
