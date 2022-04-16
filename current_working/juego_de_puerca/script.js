@@ -17,8 +17,39 @@ const roll_dice_button = document.querySelector('.btn--roll');
 const hold_button = document.querySelector('.btn-roll');
 
 // scores
+let score = 0;
 const current_score_0 = document.getElementById('current--0');
 const current_score_1 = document.getElementById('current--1');
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -31,7 +62,7 @@ const load_initial_state = function () {
     die.classList.add('hidden');
 }
 
-load_initial_state();
+
 
 /**
  * generate value for dice roll
@@ -40,6 +71,28 @@ load_initial_state();
 const random_dice_generator = function () {
     return Math.trunc(Math.random() * 6) + 1;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+load_initial_state();
+
+
+
+
+
 
 //
 
@@ -53,13 +106,18 @@ roll_dice_button.addEventListener('click', function() {
     // ?? using the source attribute and template literal to change the image displayed
     die.src = `./assets/dice-${dice_value}.png`;
     console.log(dice_value);
-
     if (dice_value !== 1) {
-
+        score += dice_value;
+    } else {
+        // TODO :: need to change up user turn
+        current_score_0.textContent = score;
     }
-
 })
 
+
+new_game_button.addEventListener('click', function() {
+    load_initial_state();
+})
 
 
 
